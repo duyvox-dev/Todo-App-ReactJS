@@ -3,6 +3,13 @@ import logo from "./logo.svg";
 import "./App.css";
 import { v4 } from "uuid";
 import TodoList from "./components/TodoList";
+import styled from "styled-components";
+
+const AddBtn = styled.button`
+    &[disabled]:hover {
+        cursor: not-allowed;
+    }
+`;
 const TODOLIST_STORAGE = "todolist_storage";
 
 function App() {
@@ -19,8 +26,6 @@ function App() {
     }, []);
     useEffect(() => {
         setFilteredList([...todoList]);
-    }, [todoList]);
-    useEffect(() => {
         localStorage.setItem(TODOLIST_STORAGE, JSON.stringify(todoList));
     }, [todoList]);
 
@@ -70,13 +75,13 @@ function App() {
                         value={textInput}
                         onChange={onTextInputChange}
                     />
-                    <button
+                    <AddBtn
                         className="bg-sky-500 hover:bg-sky-600 active:bg-sky-700  focus:outline-none focus:ring focus:ring-sky-300  rounded-md py-2 px-5 ml-2 text-white "
                         onClick={onAddBtnClick}
                         disabled={!textInput}
                     >
                         Add
-                    </button>
+                    </AddBtn>
                 </label>
                 <div className="grid grid-cols-3 gap-4 mt-6">
                     <button
