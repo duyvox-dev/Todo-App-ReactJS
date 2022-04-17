@@ -67,7 +67,7 @@ function App() {
     };
     return (
         <div className="App flex justify-center items-center">
-            <div className="w-2/6 mt-6">
+            <div className="w-full sm:w-1/2 md:w-xl mt-6">
                 <h3 className="text-3xl text-sky-500 center">
                     Welcome to To Do App
                 </h3>
@@ -88,21 +88,21 @@ function App() {
                         Add
                     </AddBtn>
                 </label>
-                <div className="grid grid-cols-3 gap-4 mt-6">
+                <div className="grid sm:grid-cols-3 gap-2 sm:gap-4 mt-4 sm:mt-6">
                     <button
-                        className="bg-sky-500 hover:bg-sky-600 active:bg-sky-700  focus:outline-none focus:ring focus:ring-sky-300  rounded-md py-2 px-5 ml-2 text-white "
+                        className="bg-sky-500 hover:bg-sky-600 active:bg-sky-700  focus:outline-none focus:ring focus:ring-sky-300  rounded-md py-2 text-white "
                         onClick={onAllFilterBtnClick}
                     >
                         All
                     </button>
                     <button
-                        className="bg-sky-500 hover:bg-sky-600 active:bg-sky-700  focus:outline-none focus:ring focus:ring-sky-300  rounded-md py-2 px-5 ml-2 text-white "
+                        className="bg-sky-500 hover:bg-sky-600 active:bg-sky-700  focus:outline-none focus:ring focus:ring-sky-300  rounded-md py-2 text-white"
                         onClick={onCompletedFilterBtnClick}
                     >
                         Completed
                     </button>
                     <button
-                        className="bg-gray-500 hover:bg-gray-600 active:bg-gray-700  focus:outline-none focus:ring focus:ring-gray-300  rounded-md py-2 px-5 ml-2 text-white"
+                        className="bg-gray-500 hover:bg-gray-600 active:bg-gray-700  focus:outline-none focus:ring focus:ring-gray-300  rounded-md py-2 text-white"
                         onClick={onUnCompletedFilterBtnClick}
                     >
                         UnCompleted
