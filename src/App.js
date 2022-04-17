@@ -67,7 +67,7 @@ function App() {
     };
     return (
         <div className="App flex justify-center items-center">
-            <div className="w-full sm:w-1/2 md:w-xl mt-6">
+            <div className="w-full sm:w-1/2 md:w-xl mt-6 px-3">
                 <h3 className="text-3xl text-sky-500 center">
                     Welcome to To Do App
                 </h3>
