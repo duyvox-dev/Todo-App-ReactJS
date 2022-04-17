@@ -1,6 +1,10 @@
 import React from "react";
 import Todo from "./Todo";
-export default function TodoList({ todoList, onCheckBtnClick }) {
+export default function TodoList({
+    todoList,
+    onCheckBtnClick,
+    onTrashBtnClick,
+}) {
     return (
         <>
             {todoList.map((todo) => {
@@ -9,6 +13,7 @@ export default function TodoList({ todoList, onCheckBtnClick }) {
                         todo={todo}
                         key={todo.id}
                         onCheckBtnClick={onCheckBtnClick}
+                        onTrashBtnClick={onTrashBtnClick}
                     ></Todo>
                 );
             })}

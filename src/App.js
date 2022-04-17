@@ -45,6 +45,11 @@ function App() {
             ),
         );
     };
+    const onTrashBtnClick = (id) => {
+        const index = todoList.findIndex((todo) => todo.id === id);
+        todoList.splice(index, 1);
+        setTodoList([...todoList]);
+    };
 
     const onCompletedFilterBtnClick = () => {
         const filterArr = todoList.filter((todo) => todo.isCompleted);
@@ -106,6 +111,7 @@ function App() {
                 <TodoList
                     todoList={filteredList}
                     onCheckBtnClick={onCheckBtnClick}
+                    onTrashBtnClick={onTrashBtnClick}
                 />
             </div>
         </div>
