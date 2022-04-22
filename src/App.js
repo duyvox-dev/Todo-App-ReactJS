@@ -1,10 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useReducer, useRef } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import { v4 } from "uuid";
 import TodoList from "./components/TodoList";
 import styled from "styled-components";
-
+import todoReducer, { initState } from "./reducer/todoReducer";
+import {
+    addTask,
+    deleteTask,
+    setTask,
+    completeTask,
+} from "./actions/todoActions";
 const AddBtn = styled.button`
     &[disabled]:hover {
         cursor: not-allowed;
@@ -13,55 +19,51 @@ const AddBtn = styled.button`
 const TODOLIST_STORAGE = "todolist_storage";
 
 function App() {
-    const [todoList, setTodoList] = useState([]);
+    const [todoList, dispatch] = useReducer(todoReducer, initState);
     const [filteredList, setFilteredList] = useState([]);
-    const [textInput, setTextInput] = useState("");
+    const inputEl = useRef(null);
 
+    // get localStorage when app just open
     useEffect(() => {
         const storagedList = localStorage.getItem(TODOLIST_STORAGE);
         if (storagedList) {
-            setTodoList(JSON.parse(storagedList));
+            todoList.tasks = [...JSON.parse(storagedList)];
             setFilteredList(JSON.parse(storagedList));
         }
     }, []);
     useEffect(() => {
-        setFilteredList([...todoList]);
-        localStorage.setItem(TODOLIST_STORAGE, JSON.stringify(todoList));
-    }, [todoList]);
+        setFilteredList([...todoList.tasks]);
+        localStorage.setItem(TODOLIST_STORAGE, JSON.stringify(todoList.tasks));
+    }, [todoList.tasks]);
 
     const onAddBtnClick = () => {
-        const newTask = { id: v4(), name: textInput, isCompleted: false };
-        setTodoList([newTask, ...todoList]);
-        setTextInput("");
+        const newTask = { id: v4(), name: todoList.task, isCompleted: false };
+        dispatch(addTask(newTask));
+        dispatch(setTask(""));
+        inputEl.current.focus();
     };
 
     const onTextInputChange = (e) => {
-        setTextInput(e.target.value);
+        dispatch(setTask(e.target.value));
     };
     const onCheckBtnClick = (id) => {
-        setTodoList((prevState) =>
-            prevState.map((todo) =>
-                todo.id === id ? { ...todo, isCompleted: true } : todo,
-            ),
-        );
+        dispatch(completeTask(id));
     };
     const onTrashBtnClick = (id) => {
-        const index = todoList.findIndex((todo) => todo.id === id);
-        todoList.splice(index, 1);
-        setTodoList([...todoList]);
+        dispatch(deleteTask(id));
     };
 
     const onCompletedFilterBtnClick = () => {
-        const filterArr = todoList.filter((todo) => todo.isCompleted);
+        const filterArr = todoList.tasks.filter((todo) => todo.isCompleted);
         setFilteredList([...filterArr]);
     };
 
     const onUnCompletedFilterBtnClick = () => {
-        const filterArr = todoList.filter((todo) => !todo.isCompleted);
+        const filterArr = todoList.tasks.filter((todo) => !todo.isCompleted);
         setFilteredList([...filterArr]);
     };
     const onAllFilterBtnClick = () => {
-        const filterArr = [...todoList];
+        const filterArr = [...todoList.tasks];
 
         setFilteredList([...filterArr]);
     };
@@ -77,13 +79,14 @@ function App() {
                         placeholder="Things to do"
                         type="text"
                         name="search"
-                        value={textInput}
+                        value={todoList.task}
                         onChange={onTextInputChange}
+                        ref={inputEl}
                     />
                     <AddBtn
                         className="bg-sky-500 hover:bg-sky-600 active:bg-sky-700  focus:outline-none focus:ring focus:ring-sky-300  rounded-md py-2 px-5 ml-2 text-white "
                         onClick={onAddBtnClick}
-                        disabled={!textInput}
+                        disabled={!todoList.task}
                     >
                         Add
                     </AddBtn>
