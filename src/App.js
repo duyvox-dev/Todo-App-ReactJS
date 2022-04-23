@@ -1,9 +1,6 @@
 import React, { useState, useEffect, useReducer, useRef } from "react";
-import logo from "./logo.svg";
-import "./App.css";
 import { v4 } from "uuid";
 import TodoList from "./components/TodoList";
-import styled from "styled-components";
 import todoReducer, { initState } from "./reducer/todoReducer";
 import {
     addTask,
@@ -11,11 +8,7 @@ import {
     setTask,
     completeTask,
 } from "./actions/todoActions";
-const AddBtn = styled.button`
-    &[disabled]:hover {
-        cursor: not-allowed;
-    }
-`;
+
 const TODOLIST_STORAGE = "todolist_storage";
 
 function App() {
@@ -83,13 +76,13 @@ function App() {
                         onChange={onTextInputChange}
                         ref={inputEl}
                     />
-                    <AddBtn
-                        className="bg-sky-500 hover:bg-sky-600 active:bg-sky-700  focus:outline-none focus:ring focus:ring-sky-300  rounded-md py-2 px-5 ml-2 text-white "
+                    <button
+                        className="bg-sky-500 hover:bg-sky-600 active:bg-sky-700  focus:outline-none focus:ring focus:ring-sky-300  rounded-md py-2 px-5 ml-2 text-white disabled:bg-slate-500 disabled:cursor-not-allowed"
                         onClick={onAddBtnClick}
                         disabled={!todoList.task}
                     >
                         Add
-                    </AddBtn>
+                    </button>
                 </label>
                 <div className="grid sm:grid-cols-3 gap-2 sm:gap-4 mt-4 sm:mt-6">
                     <button
